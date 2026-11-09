@@ -80,6 +80,19 @@ public sealed class SearchTests(InvoicesApiFactory factory) : IClassFixture<Invo
     }
 
     [Fact]
+    public async Task Parametro_mal_escrito_se_explica_en_espanol()
+    {
+        var client = await factory.CreateAuthenticatedClientAsync();
+
+        var problem = await (await client.GetAsync("/api/invoices?asOf=2025-13-01")).ReadProblemAsync(HttpStatusCode.BadRequest);
+
+        Assert.Equal("Solicitud inválida", problem.GetProperty("title").GetString());
+        Assert.Equal(
+            "El valor '2025-13-01' no es válido para AsOf.",
+            problem.GetProperty("errors").GetProperty("AsOf")[0].GetString());
+    }
+
+    [Fact]
     public async Task El_detalle_incluye_lineas_y_observaciones_de_importacion()
     {
         var client = await factory.CreateAuthenticatedClientAsync();

@@ -14,6 +14,11 @@ public sealed class ImportsController(IInvoiceImportService importService) : Con
     private const long MaxFileSizeBytes = 5 * 1024 * 1024;
 
     [HttpPost]
+    [EndpointSummary("Importa facturas desde un archivo JSON")]
+    [EndpointDescription(
+        "El archivo va en el campo file (multipart/form-data, máximo 5 MB) y tiene el mismo formato que " +
+        "bd_exam.json. Omite los invoice_number que ya existen. Las facturas inconsistentes se guardan, pero quedan " +
+        "fuera del sistema activo.")]
     [Consumes("multipart/form-data")]
     [RequestFormLimits(MultipartBodyLengthLimit = MaxFileSizeBytes + (64 * 1024))]
     [ProducesResponseType<ImportResultDto>(StatusCodes.Status200OK)]

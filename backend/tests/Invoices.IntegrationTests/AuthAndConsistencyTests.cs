@@ -34,6 +34,15 @@ public sealed class AuthAndConsistencyTests(InvoicesApiFactory factory) : IClass
         Assert.Equal(HttpStatusCode.Unauthorized, (await factory.CreateClient().GetAsync(url)).StatusCode);
 
     [Fact]
+    public async Task Sin_token_responde_401_en_espanol()
+    {
+        var problem = await (await factory.CreateClient().GetAsync("/api/invoices"))
+            .ReadProblemAsync(HttpStatusCode.Unauthorized);
+
+        Assert.Equal("No autorizado", problem.GetProperty("title").GetString());
+    }
+
+    [Fact]
     public async Task Swagger_documenta_la_api()
     {
         var response = await factory.CreateClient().GetAsync("/swagger/v1/swagger.json");
@@ -42,6 +51,7 @@ public sealed class AuthAndConsistencyTests(InvoicesApiFactory factory) : IClass
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.Contains("/api/invoices/{invoiceNumber}/credit-notes", document);
         Assert.Contains("\"422\"", document);
+        Assert.Contains("\"summary\": \"Busca facturas activas\"", document);
     }
 
     [Fact]

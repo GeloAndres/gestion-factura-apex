@@ -26,7 +26,7 @@ internal sealed class GlobalExceptionHandler(
             ProblemDetails = new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,
-                Title = "Error interno",
+                Title = SpanishErrors.TitleFor(StatusCodes.Status500InternalServerError),
                 Detail = "Ocurrió un error inesperado. Revisa los logs del servidor.",
             },
         });

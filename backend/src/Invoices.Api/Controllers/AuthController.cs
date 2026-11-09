@@ -11,6 +11,10 @@ namespace Invoices.Api.Controllers;
 public sealed class AuthController(JwtTokenService tokens) : ControllerBase
 {
     [HttpPost("login")]
+    [EndpointSummary("Inicia sesión y entrega un token JWT")]
+    [EndpointDescription(
+        "Usuario de prueba: admin / Admin123!. Copia el accessToken de la respuesta y pégalo en el botón Authorize " +
+        "para usar el resto de los endpoints.")]
     [Consumes("application/json")]
     [ProducesResponseType<LoginResponse>(StatusCodes.Status200OK)]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest, ProblemJson)]

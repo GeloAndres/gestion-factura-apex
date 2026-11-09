@@ -77,6 +77,17 @@ public sealed class CreditNoteTests(InvoicesApiFactory factory) : IClassFixture<
         await (await PostAsync(2, new { })).ReadProblemAsync(HttpStatusCode.BadRequest);
     }
 
+    [Fact]
+    public async Task Monto_con_decimales_explica_en_espanol_que_debe_ser_entero()
+    {
+        var problem = await (await PostAsync(2, new { amount = 10.5 })).ReadProblemAsync(HttpStatusCode.BadRequest);
+
+        Assert.Equal("Solicitud inválida", problem.GetProperty("title").GetString());
+        var error = Assert.Single(problem.GetProperty("errors").EnumerateObject());
+        Assert.Equal("Amount", error.Name);
+        Assert.Equal("amount debe ser un número entero, sin decimales.", error.Value[0].GetString());
+    }
+
     [Theory]
     [InlineData(41)]
     [InlineData(999)]

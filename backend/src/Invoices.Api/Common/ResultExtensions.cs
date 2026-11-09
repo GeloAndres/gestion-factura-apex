@@ -10,19 +10,19 @@ public static class ResultExtensions
 
     public static IActionResult ToProblem(this Error error, ControllerBase controller)
     {
-        var (status, title) = error.Type switch
+        var status = error.Type switch
         {
-            ErrorType.Validation => (StatusCodes.Status400BadRequest, "Solicitud inválida"),
-            ErrorType.NotFound => (StatusCodes.Status404NotFound, "Recurso no encontrado"),
-            ErrorType.Conflict => (StatusCodes.Status409Conflict, "Conflicto"),
-            ErrorType.BusinessRule => (StatusCodes.Status422UnprocessableEntity, "Regla de negocio no cumplida"),
-            _ => (StatusCodes.Status500InternalServerError, "Error interno"),
+            ErrorType.Validation => StatusCodes.Status400BadRequest,
+            ErrorType.NotFound => StatusCodes.Status404NotFound,
+            ErrorType.Conflict => StatusCodes.Status409Conflict,
+            ErrorType.BusinessRule => StatusCodes.Status422UnprocessableEntity,
+            _ => StatusCodes.Status500InternalServerError,
         };
 
         var problem = controller.ProblemDetailsFactory.CreateProblemDetails(
             controller.HttpContext,
             statusCode: status,
-            title: title,
+            title: SpanishErrors.TitleFor(status),
             detail: error.Message);
         problem.Extensions["code"] = error.Code;
 

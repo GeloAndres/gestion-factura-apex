@@ -76,7 +76,7 @@ En Swagger: ejecuta `POST /api/auth/login`, copia el `accessToken` y pégalo en 
 
 ## Tests
 
-Desde la raíz del repositorio, el backend (55 unitarios + 45 de integración):
+Desde la raíz del repositorio, el backend (55 unitarios + 48 de integración):
 
 ```bash
 cd backend
@@ -165,7 +165,7 @@ dotnet ef migrations script --project src/Invoices.Infrastructure --startup-proj
 
 ## Endpoints
 
-Todos, salvo el login, requieren `Authorization: Bearer <token>`. Los errores se devuelven como `application/problem+json` (RFC 7807) con un campo `code`.
+Todos, salvo el login, requieren `Authorization: Bearer <token>`. Los errores se devuelven como `application/problem+json` (RFC 7807), con títulos y mensajes en español; los de reglas de negocio traen además un campo `code`. En Swagger, cada endpoint tiene su descripción.
 
 | Método y ruta | Descripción | Respuestas |
 |---|---|---|
