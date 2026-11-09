@@ -7,8 +7,10 @@ import { RequireAuth } from './auth/RequireAuth'
 import { AppLayout } from './components/AppLayout'
 import { AsOfProvider } from './context/AsOfProvider'
 import { LoginPage } from './features/auth/LoginPage'
+import { ImportPage } from './features/import/ImportPage'
 import { InvoiceDetailPage } from './features/invoices/InvoiceDetailPage'
 import { InvoicesPage } from './features/invoices/InvoicesPage'
+import { ReportsPage } from './features/reports/ReportsPage'
 import { theme } from './theme'
 
 const queryClient = new QueryClient({
@@ -41,8 +43,10 @@ export function App() {
                 <Route index element={<Navigate to="/facturas" replace />} />
                 <Route path="/facturas" element={<InvoicesPage />} />
                 <Route path="/facturas/:invoiceNumber" element={<InvoiceDetailPage />} />
-                <Route path="*" element={null} />
+                <Route path="/reportes" element={<ReportsPage />} />
+                <Route path="/importar" element={<ImportPage />} />
               </Route>
+              <Route path="*" element={<Navigate to="/facturas" replace />} />
             </Routes>
           </BrowserRouter>
         </AsOfProvider>
