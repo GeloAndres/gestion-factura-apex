@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoices.Domain", "src\Invo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoices.Application", "src\Invoices.Application\Invoices.Application.csproj", "{72057F8E-4CA8-45B7-A40B-B0F8BBEBAD84}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1B673CFE-9EB0-4DE9-863A-7DBB390F2DC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoices.UnitTests", "tests\Invoices.UnitTests\Invoices.UnitTests.csproj", "{1FCCCD47-BC55-4987-A4A0-9526BE12D8AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +27,10 @@ Global
 		{72057F8E-4CA8-45B7-A40B-B0F8BBEBAD84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72057F8E-4CA8-45B7-A40B-B0F8BBEBAD84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72057F8E-4CA8-45B7-A40B-B0F8BBEBAD84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FCCCD47-BC55-4987-A4A0-9526BE12D8AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FCCCD47-BC55-4987-A4A0-9526BE12D8AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FCCCD47-BC55-4987-A4A0-9526BE12D8AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FCCCD47-BC55-4987-A4A0-9526BE12D8AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,5 +38,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D8557FBF-ADBE-4F9A-9488-15400EFD81AE} = {FC8870AD-6E28-433C-A483-AD9AC6E1C821}
 		{72057F8E-4CA8-45B7-A40B-B0F8BBEBAD84} = {FC8870AD-6E28-433C-A483-AD9AC6E1C821}
+		{1FCCCD47-BC55-4987-A4A0-9526BE12D8AE} = {1B673CFE-9EB0-4DE9-863A-7DBB390F2DC0}
 	EndGlobalSection
 EndGlobal
