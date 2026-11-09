@@ -1,12 +1,14 @@
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { BrowserRouter, Route, Routes } from 'react-router'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import { ApiError } from './api/client'
 import { RequireAuth } from './auth/RequireAuth'
 import { AppLayout } from './components/AppLayout'
 import { AsOfProvider } from './context/AsOfProvider'
 import { LoginPage } from './features/auth/LoginPage'
+import { InvoiceDetailPage } from './features/invoices/InvoiceDetailPage'
+import { InvoicesPage } from './features/invoices/InvoicesPage'
 import { theme } from './theme'
 
 const queryClient = new QueryClient({
@@ -37,8 +39,11 @@ export function App() {
                   </RequireAuth>
                 }
               >
-                {/* Versión parcial: facturas, reportes e importación llegan en las etapas 13 y 14.
-                    Mientras tanto, cualquier ruta protegida muestra solo la barra superior. */}
+                <Route index element={<Navigate to="/facturas" replace />} />
+                <Route path="/facturas" element={<InvoicesPage />} />
+                <Route path="/facturas/:invoiceNumber" element={<InvoiceDetailPage />} />
+                {/* Versión parcial: reportes e importación llegan en la etapa 14.
+                    Mientras tanto, esas rutas muestran solo la barra superior. */}
                 <Route path="*" element={null} />
               </Route>
             </Routes>
