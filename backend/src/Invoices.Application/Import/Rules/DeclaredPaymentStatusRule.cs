@@ -2,10 +2,6 @@ using Invoices.Application.Import.Source;
 
 namespace Invoices.Application.Import.Rules;
 
-/// <summary>
-/// "Paid" significa pago registrado (con fecha de pago). Advierte cuando el estado de pago declarado
-/// contradice los datos de pago del archivo.
-/// </summary>
 public sealed class DeclaredPaymentStatusRule : IInvoiceImportRule
 {
     public IEnumerable<ImportFinding> Evaluate(ImportedInvoice invoice)

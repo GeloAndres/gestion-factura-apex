@@ -3,7 +3,6 @@ using Invoices.Domain.Common;
 
 namespace Invoices.Application.Import.Rules;
 
-/// <summary>Advierte cuando el subtotal de una línea no es precio unitario × cantidad.</summary>
 public sealed class LineSubtotalRule : IInvoiceImportRule
 {
     public IEnumerable<ImportFinding> Evaluate(ImportedInvoice invoice)

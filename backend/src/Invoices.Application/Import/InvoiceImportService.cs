@@ -13,10 +13,6 @@ public interface IInvoiceImportService
     Task<Result<ImportResultDto>> ImportAsync(Stream content, string sourceName, CancellationToken cancellationToken);
 }
 
-/// <summary>
-/// Importa facturas desde un JSON. Es idempotente: las facturas cuyo invoice_number ya existe se omiten,
-/// así que el mismo archivo se puede cargar varias veces sin duplicar datos.
-/// </summary>
 public sealed class InvoiceImportService(
     IInvoiceRepository invoices,
     ICustomerRepository customers,
@@ -80,7 +76,6 @@ public sealed class InvoiceImportService(
             cancellationToken);
     }
 
-    /// <summary>Descarta facturas ya existentes o repetidas en el archivo, y notas de crédito con número repetido.</summary>
     private async Task<List<ImportedInvoice>> RemoveDuplicatesAsync(
         IReadOnlyList<(int Position, ImportedInvoice Invoice)> candidates,
         List<SkippedRecordDto> skipped,

@@ -1,9 +1,5 @@
 namespace Invoices.Application.Import.Source;
 
-/// <summary>
-/// Validación estructural de un registro del JSON. Si faltan datos obligatorios el registro se descarta
-/// (con su motivo); las reglas de negocio se evalúan después, sobre el registro ya completo.
-/// </summary>
 public static class InvoiceRecordValidator
 {
     public static bool TryConvert(InvoiceRecord? record, out ImportedInvoice? invoice, out IReadOnlyList<string> errors)

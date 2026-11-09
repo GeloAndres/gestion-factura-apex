@@ -36,7 +36,6 @@ export function AddCreditNoteDialog({ open, invoice, onClose, onCreated }: AddCr
   const mutation = useMutation({
     mutationFn: (amount: number) => invoicesApi.addCreditNote(invoice.invoiceNumber, amount),
     onSuccess: async (created) => {
-      // El estado y el saldo cambian: se refrescan el detalle, el listado y los reportes.
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: queryKeys.invoices }),
         queryClient.invalidateQueries({ queryKey: queryKeys.reports }),
@@ -44,7 +43,6 @@ export function AddCreditNoteDialog({ open, invoice, onClose, onCreated }: AddCr
       reset({ amount: '' })
       onCreated(created)
     },
-    // La API valida de nuevo (por ejemplo, si otra persona agregó una NC entre medio).
     onError: (error) => setError('amount', { message: errorMessage(error) }),
   })
 

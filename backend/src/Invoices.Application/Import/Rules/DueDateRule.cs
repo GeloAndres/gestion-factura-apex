@@ -2,10 +2,6 @@ using Invoices.Application.Import.Source;
 
 namespace Invoices.Application.Import.Rules;
 
-/// <summary>
-/// Advierte cuando invoice_date + days_to_due no da payment_due_date. Se usa payment_due_date,
-/// que es el campo que el enunciado define para el vencimiento.
-/// </summary>
 public sealed class DueDateRule : IInvoiceImportRule
 {
     public IEnumerable<ImportFinding> Evaluate(ImportedInvoice invoice)

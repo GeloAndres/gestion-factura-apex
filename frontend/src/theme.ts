@@ -1,6 +1,5 @@
 import { createTheme } from '@mui/material/styles'
 
-/** Tema claro/oscuro: sigue la preferencia del sistema operativo. */
 export const theme = createTheme({
   cssVariables: true,
   colorSchemes: {

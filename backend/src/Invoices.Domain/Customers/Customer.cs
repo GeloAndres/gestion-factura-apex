@@ -1,11 +1,10 @@
 namespace Invoices.Domain.Customers;
 
-/// <summary>Cliente de una factura. Se identifica por su RUN.</summary>
 public sealed class Customer
 {
     private Customer()
     {
-    } // EF Core
+    }
 
     public Customer(string run, string name, string? email)
     {

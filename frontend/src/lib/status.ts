@@ -1,9 +1,5 @@
 import type { InvoiceStatus, PaymentStatus } from '../api/types'
 
-/**
- * Colores de estado (paleta de estados fija: good / warning / critical). Nunca van solos:
- * siempre se acompañan de un ícono y del texto del estado.
- */
 export const statusColors = {
   good: '#0ca30c',
   warning: '#fab219',

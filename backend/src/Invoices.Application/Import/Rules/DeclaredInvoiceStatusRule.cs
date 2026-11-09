@@ -3,10 +3,6 @@ using Invoices.Domain.Invoices;
 
 namespace Invoices.Application.Import.Rules;
 
-/// <summary>
-/// El estado de la factura se calcula siempre desde sus notas de crédito. Esta regla solo advierte
-/// cuando el estado que trae el archivo no coincide con el calculado (ej.: "canceled" sin notas de crédito).
-/// </summary>
 public sealed class DeclaredInvoiceStatusRule : IInvoiceImportRule
 {
     public IEnumerable<ImportFinding> Evaluate(ImportedInvoice invoice)

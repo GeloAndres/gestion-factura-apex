@@ -1,4 +1,3 @@
-# .NET
 bin/
 obj/
 *.user
@@ -6,13 +5,11 @@ obj/
 .vs/
 TestResults/
 
-# Base de datos SQLite local (se crea al iniciar la API)
 **/App_Data/
 *.db
 *.db-shm
 *.db-wal
 
-# Node / Vite
 node_modules/
 dist/
 *.local
@@ -20,7 +17,6 @@ dist/
 .env.*
 !.env.example
 
-# Editores y sistema
 .idea/
 .vscode/*
 !.vscode/extensions.json

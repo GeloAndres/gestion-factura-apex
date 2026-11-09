@@ -3,11 +3,6 @@ using Invoices.Domain.Common;
 
 namespace Invoices.Application.Import.Rules;
 
-/// <summary>
-/// Regla del enunciado: la suma de los subtotales de los productos debe ser igual a total_amount.
-/// Si no coincide, la factura es inconsistente (se guarda, pero queda fuera del sistema activo).
-/// La comparación es exacta: no hay tolerancia de redondeo.
-/// </summary>
 public sealed class TotalsConsistencyRule : IInvoiceImportRule
 {
     public IEnumerable<ImportFinding> Evaluate(ImportedInvoice invoice)

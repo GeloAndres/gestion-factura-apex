@@ -1,9 +1,7 @@
 namespace Invoices.Domain.Customers;
 
-/// <summary>Normalización y validación del RUN chileno (dígito verificador módulo 11).</summary>
 public static class ChileanRun
 {
-    /// <summary>Quita espacios y puntos, y deja la K en mayúscula: " 12.345.678-k " → "12345678-K".</summary>
     public static string Normalize(string run) =>
         run.Trim().Replace(".", string.Empty, StringComparison.Ordinal).ToUpperInvariant();
 

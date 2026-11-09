@@ -22,7 +22,6 @@ export interface InvoiceSearchParams {
   pageSize: number
 }
 
-/** Días de vencimiento del reporte de vencidas (lo fija el enunciado). */
 export const OVERDUE_REPORT_DAYS = 30
 
 export const invoicesApi = {
@@ -57,7 +56,6 @@ export const invoicesApi = {
   },
 }
 
-/** Claves de TanStack Query. Agrupadas para invalidar todo lo que depende de las facturas. */
 export const queryKeys = {
   invoices: ['invoices'] as const,
   search: (params: InvoiceSearchParams, asOf: IsoDate | null) => ['invoices', 'search', params, asOf] as const,

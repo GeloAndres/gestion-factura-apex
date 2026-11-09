@@ -2,7 +2,6 @@ using Invoices.Domain.Invoices;
 
 namespace Invoices.Application.Invoices;
 
-/// <summary>Criterios de búsqueda de facturas activas.</summary>
 public sealed record InvoiceSearchCriteria(
     int? InvoiceNumber,
     InvoiceStatus? InvoiceStatus,
@@ -10,7 +9,6 @@ public sealed record InvoiceSearchCriteria(
     int Page = 1,
     int PageSize = 20);
 
-/// <summary>Fila del listado de facturas activas.</summary>
 public sealed class InvoiceListItemDto
 {
     public int InvoiceNumber { get; init; }
@@ -44,7 +42,6 @@ public sealed record CreditNoteDto(int Number, DateOnly Date, long Amount);
 
 public sealed record ImportIssueDto(string Code, ImportIssueSeverity Severity, string Message);
 
-/// <summary>Detalle completo de una factura activa.</summary>
 public sealed record InvoiceDetailDto(
     int InvoiceNumber,
     DateOnly InvoiceDate,

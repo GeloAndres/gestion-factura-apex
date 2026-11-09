@@ -4,7 +4,6 @@ using Invoices.Domain.Common;
 
 namespace Invoices.Application.Import.Source;
 
-/// <summary>Lee el archivo JSON de facturas (propiedades en snake_case, como bd_exam.json).</summary>
 public static class InvoiceFileReader
 {
     private static readonly JsonSerializerOptions Options = new()

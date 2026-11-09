@@ -3,7 +3,6 @@ import Button from '@mui/material/Button'
 import { useAsOf } from '../context/asOfContext'
 import { formatDate } from '../lib/format'
 
-/** Recuerda que los estados de pago se están calculando a una fecha distinta de hoy. */
 export function AsOfNotice() {
   const { asOf, setAsOf } = useAsOf()
   if (!asOf) return null

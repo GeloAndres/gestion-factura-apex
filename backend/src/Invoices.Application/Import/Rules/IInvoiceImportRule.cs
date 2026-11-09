@@ -3,10 +3,6 @@ using Invoices.Domain.Invoices;
 
 namespace Invoices.Application.Import.Rules;
 
-/// <summary>
-/// Regla de validación de importación (patrón Strategy). Cada regla revisa un aspecto de la factura
-/// y devuelve sus hallazgos; el servicio de importación aplica todas las reglas registradas.
-/// </summary>
 public interface IInvoiceImportRule
 {
     IEnumerable<ImportFinding> Evaluate(ImportedInvoice invoice);

@@ -22,7 +22,6 @@ export function AsOfProvider({ children }: { children: ReactNode }) {
       if (value) sessionStorage.setItem(STORAGE_KEY, value)
       else sessionStorage.removeItem(STORAGE_KEY)
     } catch {
-      // Sin almacenamiento disponible: la fecha se mantiene solo en memoria.
     }
   }, [])
 

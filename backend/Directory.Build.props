@@ -1,5 +1,4 @@
 <Project>
-  <!-- Propiedades comunes a todos los proyectos de la solución. -->
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>

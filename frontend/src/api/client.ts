@@ -3,7 +3,6 @@ import type { ProblemDetails } from './types'
 
 const API_URL = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '')
 
-/** Error HTTP de la API con el mensaje del ProblemDetails y los errores por campo. */
 export class ApiError extends Error {
   readonly status: number
   readonly code: string | undefined
@@ -26,7 +25,6 @@ interface RequestOptions {
   body?: unknown
   formData?: FormData
   signal?: AbortSignal
-  /** false para no enviar el token (login). */
   auth?: boolean
 }
 
@@ -57,7 +55,6 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
   }
 
   if (response.status === 401 && token) {
-    // Token vencido o inválido: se cierra la sesión y RequireAuth lleva al login.
     sessionStore.set(null)
   }
 
@@ -71,7 +68,6 @@ async function toApiError(response: Response): Promise<ApiError> {
   try {
     problem = (await response.json()) as ProblemDetails
   } catch {
-    // Respuesta sin cuerpo JSON.
   }
 
   const fieldErrors = problem?.errors ?? {}

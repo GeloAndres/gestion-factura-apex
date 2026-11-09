@@ -1,10 +1,7 @@
-// Tipos de los contratos JSON de la API (ver Swagger en http://localhost:5080/swagger).
-
 export type InvoiceStatus = 'Issued' | 'Partial' | 'Cancelled'
 export type PaymentStatus = 'Pending' | 'Overdue' | 'Paid'
 export type ImportIssueSeverity = 'Warning' | 'Inconsistency'
 
-/** Fecha ISO sin hora, por ejemplo "2025-03-01". */
 export type IsoDate = string
 
 export interface PagedResult<T> {
@@ -113,7 +110,6 @@ export interface LoginResponse {
   username: string
 }
 
-/** Respuesta de error RFC 7807 que devuelve la API. */
 export interface ProblemDetails {
   type?: string
   title?: string

@@ -2,10 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Invoices.Domain.Common;
 
-/// <summary>
-/// Resultado de una operación que puede fallar por una regla de negocio (patrón Result).
-/// Evita usar excepciones para el flujo esperado y deja explícitos los errores posibles.
-/// </summary>
 public sealed class Result<T>
 {
     private readonly T? _value;

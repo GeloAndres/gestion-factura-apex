@@ -2,7 +2,6 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import type { ReactNode } from 'react'
 
-/** Par etiqueta / valor para cifras destacadas y fichas de detalle. */
 export function Metric({ label, value, emphasis = false }: { label: string; value: ReactNode; emphasis?: boolean }) {
   return (
     <Box>

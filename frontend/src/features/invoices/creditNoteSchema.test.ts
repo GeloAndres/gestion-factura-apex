@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { creditNoteSchema } from './creditNoteSchema'
 
-// Factura #2: saldo pendiente de $31.867.
 const schema = creditNoteSchema(31867)
 
 describe('creditNoteSchema', () => {

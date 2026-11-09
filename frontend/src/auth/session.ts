@@ -1,6 +1,3 @@
-// Sesión del usuario (token JWT). Es un store simple fuera de React para que el cliente HTTP
-// pueda leer el token de forma síncrona y cerrar la sesión ante un 401.
-
 export interface Session {
   token: string
   username: string
@@ -32,7 +29,6 @@ export const sessionStore = {
       if (session) globalThis.localStorage?.setItem(STORAGE_KEY, JSON.stringify(session))
       else globalThis.localStorage?.removeItem(STORAGE_KEY)
     } catch {
-      // Sin almacenamiento disponible (modo privado): la sesión vive solo en memoria.
     }
     listeners.forEach((listener) => listener())
   },

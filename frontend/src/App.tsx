@@ -16,7 +16,6 @@ const queryClient = new QueryClient({
     queries: {
       staleTime: 30_000,
       refetchOnWindowFocus: false,
-      // Los errores 4xx (validación, 404, sesión) no mejoran reintentando.
       retry: (failureCount, error) =>
         !(error instanceof ApiError && error.status >= 400 && error.status < 500) && failureCount < 2,
     },
@@ -42,8 +41,6 @@ export function App() {
                 <Route index element={<Navigate to="/facturas" replace />} />
                 <Route path="/facturas" element={<InvoicesPage />} />
                 <Route path="/facturas/:invoiceNumber" element={<InvoiceDetailPage />} />
-                {/* Versión parcial: reportes e importación llegan en la etapa 14.
-                    Mientras tanto, esas rutas muestran solo la barra superior. */}
                 <Route path="*" element={null} />
               </Route>
             </Routes>

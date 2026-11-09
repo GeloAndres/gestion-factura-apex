@@ -1,7 +1,5 @@
 namespace Invoices.Application.Import.Source;
 
-// Registro ya validado estructuralmente: las reglas de importación trabajan sobre datos completos.
-
 public sealed record ImportedInvoice(
     int InvoiceNumber,
     DateOnly InvoiceDate,

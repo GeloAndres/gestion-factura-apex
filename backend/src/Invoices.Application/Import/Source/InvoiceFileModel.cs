@@ -1,8 +1,5 @@
 namespace Invoices.Application.Import.Source;
 
-// Estructura del archivo JSON de origen (bd_exam.json). Todos los campos son opcionales a propósito:
-// así un registro incompleto se descarta con un motivo claro sin invalidar el archivo completo.
-
 public sealed class InvoiceFileModel
 {
     public List<InvoiceRecord?>? Invoices { get; set; }

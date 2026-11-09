@@ -2,7 +2,6 @@ import type { ReactNode } from 'react'
 import { Navigate, useLocation } from 'react-router'
 import { useSession } from './useSession'
 
-/** Redirige al login si no hay sesión, recordando a dónde quería ir el usuario. */
 export function RequireAuth({ children }: { children: ReactNode }) {
   const session = useSession()
   const location = useLocation()

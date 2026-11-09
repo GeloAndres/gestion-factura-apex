@@ -13,13 +13,11 @@ import { invoiceStatusMeta, paymentStatusColor, paymentStatusMeta } from '../lib
 const paymentIcons = { Paid: CheckCircleRounded, Pending: ScheduleRounded, Overdue: ErrorRounded }
 const invoiceIcons = { Issued: DescriptionOutlined, Partial: ContrastRounded, Cancelled: BlockRounded }
 
-/** Ícono del estado de pago, en su color de estado. */
 export function PaymentStatusIcon({ status, ...props }: { status: PaymentStatus } & SvgIconProps) {
   const Icon = paymentIcons[status]
   return <Icon {...props} sx={{ color: paymentStatusColor[status], ...props.sx }} />
 }
 
-// El texto queda en el color de tinta normal; el color de estado va solo en el ícono.
 const chipSx = (iconColor: string) => ({
   fontWeight: 600,
   bgcolor: 'background.paper',

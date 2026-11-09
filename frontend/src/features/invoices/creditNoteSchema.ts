@@ -1,11 +1,6 @@
 import { z } from 'zod'
 import { formatCLP, parseAmount } from '../../lib/format'
 
-/**
- * Validación del formulario de nota de crédito. Replica las reglas de la API para dar feedback
- * inmediato (la API vuelve a validar y es la que manda): entero en pesos, mayor a 0 y sin
- * superar el saldo pendiente.
- */
 export function creditNoteSchema(pendingBalance: number) {
   return z.object({
     amount: z.string().transform((raw, context) => {

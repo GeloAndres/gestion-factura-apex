@@ -3,7 +3,6 @@ using Invoices.Domain.Common;
 
 namespace Invoices.Application.Import.Rules;
 
-/// <summary>Advierte cuando las notas de crédito del archivo suman más que el total de la factura.</summary>
 public sealed class CreditNotesWithinTotalRule : IInvoiceImportRule
 {
     public IEnumerable<ImportFinding> Evaluate(ImportedInvoice invoice)

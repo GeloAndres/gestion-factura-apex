@@ -1,9 +1,6 @@
 import type { InvoiceSearchParams } from '../../api/invoicesApi'
 import { isInvoiceStatus, isPaymentStatus } from '../../lib/status'
 
-// Los filtros viven en la URL (?numero=30&estadoFactura=Partial...) para que se puedan
-// compartir y para que el botón "atrás" del navegador funcione.
-
 export const PAGE_SIZES = [10, 20, 50] as const
 const DEFAULT_PAGE_SIZE = 10
 

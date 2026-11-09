@@ -3,7 +3,6 @@ using Invoices.Domain.Customers;
 
 namespace Invoices.Application.Import.Rules;
 
-/// <summary>Advierte cuando el RUN del cliente no tiene formato válido o su dígito verificador no cuadra.</summary>
 public sealed class CustomerRunRule : IInvoiceImportRule
 {
     public IEnumerable<ImportFinding> Evaluate(ImportedInvoice invoice)
