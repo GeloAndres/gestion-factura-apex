@@ -15,6 +15,7 @@ import { errorMessage } from '../../api/client'
 import { invoicesApi } from '../../api/invoicesApi'
 import { sessionStore } from '../../auth/session'
 import { useSession } from '../../auth/useSession'
+import { Brand } from '../../components/Brand'
 
 const loginSchema = z.object({
   username: z.string().trim().min(1, 'Ingresa tu usuario.'),
@@ -46,12 +47,15 @@ export function LoginPage() {
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'grid', placeItems: 'center', p: 2, bgcolor: 'background.default' }}>
-      <Card sx={{ width: '100%', maxWidth: 420 }}>
-        <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
+      <Card sx={{ width: '100%', maxWidth: 420, boxShadow: '0 12px 32px rgba(16, 24, 40, 0.08)' }}>
+        <CardContent sx={{ p: { xs: 3, sm: 5 } }}>
           <Stack component="form" noValidate onSubmit={handleSubmit((values) => login.mutate(values))} sx={{ gap: 2.5 }}>
+            <Brand />
             <div>
-              <Typography variant="h1">Gestión de Facturas</Typography>
-              <Typography color="text.secondary">Inicia sesión para continuar.</Typography>
+              <Typography variant="h1">Bienvenido</Typography>
+              <Typography color="text.secondary" sx={{ mt: 0.5 }}>
+                Inicia sesión para gestionar tus facturas.
+              </Typography>
             </div>
 
             {login.isError && <Alert severity="error">{errorMessage(login.error)}</Alert>}
@@ -91,9 +95,9 @@ export function LoginPage() {
               Ingresar
             </Button>
 
-            <Alert severity="info" variant="outlined">
+            <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
               Usuario de prueba: <strong>admin</strong> · contraseña <strong>Admin123!</strong>
-            </Alert>
+            </Typography>
           </Stack>
         </CardContent>
       </Card>
