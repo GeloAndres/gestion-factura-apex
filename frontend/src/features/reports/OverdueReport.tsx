@@ -1,6 +1,6 @@
 import Alert from '@mui/material/Alert'
+import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
 import LinearProgress from '@mui/material/LinearProgress'
 import Link from '@mui/material/Link'
 import Skeleton from '@mui/material/Skeleton'
@@ -16,9 +16,10 @@ import { useQuery } from '@tanstack/react-query'
 import { Link as RouterLink } from 'react-router'
 import { errorMessage } from '../../api/client'
 import { OVERDUE_REPORT_DAYS, invoicesApi, queryKeys } from '../../api/invoicesApi'
-import { Metric } from '../../components/Metric'
+import { CustomerCell } from '../../components/CustomerCell'
 import { useAsOf } from '../../context/asOfContext'
 import { formatCLP, formatDate, formatInteger } from '../../lib/format'
+import { paymentTones } from '../../lib/status'
 
 const numeric = { textAlign: 'right', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' } as const
 
@@ -32,37 +33,36 @@ export function OverdueReport() {
 
   return (
     <Card>
-      {query.isFetching && <LinearProgress aria-label="Cargando reporte" />}
-      <CardContent>
-        <Typography variant="h2">Vencidas hace más de {OVERDUE_REPORT_DAYS} días, sin pago ni notas de crédito</Typography>
+      <Box sx={{ height: 2 }}>{query.isFetching && <LinearProgress aria-label="Cargando reporte" sx={{ height: 2 }} />}</Box>
+      <Box sx={{ p: { xs: 2.5, sm: 3 } }}>
+        <Typography variant="h2">Vencidas hace más de {OVERDUE_REPORT_DAYS} días</Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-          Facturas consistentes sin pago registrado ni notas de crédito, cuyo vencimiento pasó hace más de{' '}
-          {OVERDUE_REPORT_DAYS} días{report ? ` al ${formatDate(report.asOf)}` : ''}.
+          Facturas consistentes sin pago ni notas de crédito{report ? `, al ${formatDate(report.asOf)}` : ''}.
         </Typography>
         {report && (
-          <Stack direction="row" sx={{ gap: 4, mt: 2 }}>
-            <Metric label="Facturas" value={formatInteger(report.count)} emphasis />
-            <Metric label="Monto por cobrar" value={formatCLP(report.totalAmount)} emphasis />
+          <Stack direction="row" sx={{ gap: { xs: 4, sm: 6 }, mt: 3, flexWrap: 'wrap' }}>
+            <BigNumber label="Facturas" value={formatInteger(report.count)} />
+            <BigNumber label="Monto por cobrar" value={formatCLP(report.totalAmount)} />
           </Stack>
         )}
-      </CardContent>
+      </Box>
 
       {query.isError && (
-        <Alert severity="error" sx={{ m: 2 }}>
+        <Alert severity="error" sx={{ mx: 3, mb: 3 }}>
           {errorMessage(query.error)}
         </Alert>
       )}
-      {query.isPending && <Skeleton variant="rounded" height={200} sx={{ m: 2 }} />}
+      {query.isPending && <Skeleton variant="rounded" height={200} sx={{ mx: 3, mb: 3 }} />}
 
       {report && report.items.length === 0 && (
-        <CardContent sx={{ pt: 0 }}>
-          <Typography color="text.secondary">No hay facturas en esta situación a la fecha indicada.</Typography>
-        </CardContent>
+        <Typography color="text.secondary" sx={{ px: 3, pb: 3 }}>
+          No hay facturas en esta situación a la fecha indicada.
+        </Typography>
       )}
 
       {report && report.items.length > 0 && (
-        <TableContainer>
-          <Table size="small" aria-label="Facturas vencidas hace más de 30 días">
+        <TableContainer sx={{ borderTop: 1, borderColor: 'divider' }}>
+          <Table aria-label={`Facturas vencidas hace más de ${OVERDUE_REPORT_DAYS} días`} sx={{ minWidth: 640 }}>
             <TableHead>
               <TableRow>
                 <TableCell>N°</TableCell>
@@ -74,21 +74,27 @@ export function OverdueReport() {
             </TableHead>
             <TableBody>
               {report.items.map((item) => (
-                <TableRow key={item.invoiceNumber} hover>
+                <TableRow key={item.invoiceNumber} hover sx={{ '&:last-child td': { borderBottom: 0 } }}>
                   <TableCell>
-                    <Link component={RouterLink} to={`/facturas/${item.invoiceNumber}`} sx={{ fontWeight: 700 }}>
+                    <Link component={RouterLink} to={`/facturas/${item.invoiceNumber}`} underline="hover" sx={{ fontWeight: 700 }}>
                       {item.invoiceNumber}
                     </Link>
                   </TableCell>
-                  <TableCell>
-                    <Typography variant="body2">{item.customerName}</Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      RUN {item.customerRun}
-                    </Typography>
+                  <TableCell sx={{ maxWidth: 280 }}>
+                    <CustomerCell name={item.customerName} run={item.customerRun} />
                   </TableCell>
-                  <TableCell sx={{ whiteSpace: 'nowrap' }}>{formatDate(item.paymentDueDate)}</TableCell>
-                  <TableCell sx={numeric}>{formatInteger(item.daysOverdue)}</TableCell>
-                  <TableCell sx={numeric}>{formatCLP(item.totalAmount)}</TableCell>
+                  <TableCell sx={{ whiteSpace: 'nowrap', color: 'text.secondary' }}>{formatDate(item.paymentDueDate)}</TableCell>
+                  <TableCell
+                    sx={(theme) => ({
+                      ...numeric,
+                      fontWeight: 600,
+                      color: paymentTones.Overdue.text,
+                      ...theme.applyStyles('dark', { color: paymentTones.Overdue.textDark }),
+                    })}
+                  >
+                    {formatInteger(item.daysOverdue)}
+                  </TableCell>
+                  <TableCell sx={{ ...numeric, fontWeight: 600 }}>{formatCLP(item.totalAmount)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -96,5 +102,16 @@ export function OverdueReport() {
         </TableContainer>
       )}
     </Card>
+  )
+}
+
+function BigNumber({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <Typography sx={{ fontSize: '2rem', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.02em' }}>{value}</Typography>
+      <Typography variant="body2" color="text.secondary">
+        {label}
+      </Typography>
+    </div>
   )
 }

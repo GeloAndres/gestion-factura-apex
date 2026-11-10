@@ -1,10 +1,10 @@
 import type { InvoiceStatus, PaymentStatus } from '../api/types'
 
-export const statusColors = {
-  good: '#0ca30c',
-  warning: '#fab219',
-  critical: '#d03b3b',
-} as const
+export interface StatusTone {
+  main: string
+  text: string
+  textDark: string
+}
 
 interface StatusMeta<T extends string> {
   value: T
@@ -31,10 +31,16 @@ export const isInvoiceStatus = (value: string | null): value is InvoiceStatus =>
 export const isPaymentStatus = (value: string | null): value is PaymentStatus =>
   paymentStatuses.some((item) => item.value === value)
 
-export const paymentStatusColor: Record<PaymentStatus, string> = {
-  Paid: statusColors.good,
-  Pending: statusColors.warning,
-  Overdue: statusColors.critical,
+export const paymentTones: Record<PaymentStatus, StatusTone> = {
+  Paid: { main: '#16a34a', text: '#15803d', textDark: '#4ade80' },
+  Pending: { main: '#d97706', text: '#b45309', textDark: '#fbbf24' },
+  Overdue: { main: '#dc2626', text: '#b91c1c', textDark: '#f87171' },
+}
+
+export const invoiceStatusDot: Record<InvoiceStatus, string> = {
+  Issued: '#9ca3af',
+  Partial: '#3b82f6',
+  Cancelled: '#8b5cf6',
 }
 
 export const invoiceStatusMeta = (status: InvoiceStatus) =>

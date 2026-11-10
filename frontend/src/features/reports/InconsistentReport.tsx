@@ -4,7 +4,6 @@ import WarningAmberRounded from '@mui/icons-material/WarningAmberRounded'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
 import LinearProgress from '@mui/material/LinearProgress'
@@ -22,9 +21,12 @@ import { useState } from 'react'
 import { errorMessage } from '../../api/client'
 import { invoicesApi, queryKeys } from '../../api/invoicesApi'
 import type { InconsistentInvoice } from '../../api/types'
+import { CustomerCell } from '../../components/CustomerCell'
 import { formatCLP, formatDate, formatInteger, formatSignedCLP } from '../../lib/format'
+import { paymentTones } from '../../lib/status'
 
 const numeric = { textAlign: 'right', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' } as const
+const alertColor = paymentTones.Overdue.main
 
 export function InconsistentReport() {
   const query = useQuery({
@@ -34,30 +36,30 @@ export function InconsistentReport() {
 
   return (
     <Card>
-      {query.isFetching && <LinearProgress aria-label="Cargando reporte" />}
-      <CardContent>
+      <Box sx={{ height: 2 }}>{query.isFetching && <LinearProgress aria-label="Cargando reporte" sx={{ height: 2 }} />}</Box>
+      <Box sx={{ p: { xs: 2.5, sm: 3 } }}>
         <Typography variant="h2">Facturas inconsistentes</Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-          El total declarado no coincide con la suma de los subtotales de sus productos. Se conservan en la base de
-          datos para este reporte, pero no forman parte del sistema activo (no se buscan ni admiten notas de crédito).
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5, maxWidth: 720 }}>
+          Su total declarado no coincide con la suma de sus productos. Se guardan para este reporte, pero quedan fuera del
+          sistema activo: no aparecen en la búsqueda ni admiten notas de crédito.
         </Typography>
-      </CardContent>
+      </Box>
 
       {query.isError && (
-        <Alert severity="error" sx={{ m: 2 }}>
+        <Alert severity="error" sx={{ mx: 3, mb: 3 }}>
           {errorMessage(query.error)}
         </Alert>
       )}
-      {query.isPending && <Skeleton variant="rounded" height={120} sx={{ m: 2 }} />}
+      {query.isPending && <Skeleton variant="rounded" height={120} sx={{ mx: 3, mb: 3 }} />}
       {query.data?.length === 0 && (
-        <CardContent sx={{ pt: 0 }}>
-          <Typography color="text.secondary">No hay facturas inconsistentes.</Typography>
-        </CardContent>
+        <Typography color="text.secondary" sx={{ px: 3, pb: 3 }}>
+          No hay facturas inconsistentes.
+        </Typography>
       )}
 
       {query.data && query.data.length > 0 && (
-        <TableContainer>
-          <Table size="small" aria-label="Facturas inconsistentes">
+        <TableContainer sx={{ borderTop: 1, borderColor: 'divider' }}>
+          <Table aria-label="Facturas inconsistentes" sx={{ minWidth: 760 }}>
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox" />
@@ -87,26 +89,26 @@ function InconsistentRow({ invoice }: { invoice: InconsistentInvoice }) {
 
   return (
     <>
-      <TableRow hover sx={{ '& > td': { borderBottom: open ? 'none' : undefined } }}>
+      <TableRow hover onClick={() => setOpen((value) => !value)} sx={{ cursor: 'pointer', '& > td': { borderBottom: open ? 'none' : undefined } }}>
         <TableCell padding="checkbox">
           <IconButton
             size="small"
             aria-label={open ? 'Ocultar productos' : 'Ver productos'}
             aria-expanded={open}
             aria-controls={panelId}
-            onClick={() => setOpen((value) => !value)}
+            onClick={(event) => {
+              event.stopPropagation()
+              setOpen((value) => !value)
+            }}
           >
             {open ? <KeyboardArrowUpRounded /> : <KeyboardArrowDownRounded />}
           </IconButton>
         </TableCell>
         <TableCell sx={{ fontWeight: 700 }}>{invoice.invoiceNumber}</TableCell>
-        <TableCell>
-          <Typography variant="body2">{invoice.customerName}</Typography>
-          <Typography variant="caption" color="text.secondary">
-            RUN {invoice.customerRun}
-          </Typography>
+        <TableCell sx={{ maxWidth: 260 }}>
+          <CustomerCell name={invoice.customerName} run={invoice.customerRun} />
         </TableCell>
-        <TableCell sx={{ whiteSpace: 'nowrap' }}>{formatDate(invoice.invoiceDate)}</TableCell>
+        <TableCell sx={{ whiteSpace: 'nowrap', color: 'text.secondary' }}>{formatDate(invoice.invoiceDate)}</TableCell>
         <TableCell sx={numeric}>{formatCLP(invoice.declaredTotal)}</TableCell>
         <TableCell sx={numeric}>{formatCLP(invoice.linesTotal)}</TableCell>
         <TableCell sx={{ ...numeric, fontWeight: 700 }}>{formatSignedCLP(invoice.difference)}</TableCell>
@@ -114,12 +116,12 @@ function InconsistentRow({ invoice }: { invoice: InconsistentInvoice }) {
       <TableRow>
         <TableCell colSpan={7} sx={{ py: 0 }}>
           <Collapse in={open} unmountOnExit>
-            <Box id={panelId} sx={{ py: 2, pl: { md: 7 } }}>
+            <Box id={panelId} sx={{ my: 2, ml: { md: 7 }, borderRadius: 2, bgcolor: 'action.hover', overflow: 'hidden' }}>
               <Table size="small" aria-label={`Productos de la factura ${invoice.invoiceNumber}`}>
                 <TableHead>
                   <TableRow>
                     <TableCell>Producto</TableCell>
-                    <TableCell sx={numeric}>Precio unitario</TableCell>
+                    <TableCell sx={numeric}>Precio</TableCell>
                     <TableCell sx={numeric}>Cantidad</TableCell>
                     <TableCell sx={numeric}>Precio × cantidad</TableCell>
                     <TableCell sx={numeric}>Subtotal declarado</TableCell>
@@ -127,7 +129,7 @@ function InconsistentRow({ invoice }: { invoice: InconsistentInvoice }) {
                 </TableHead>
                 <TableBody>
                   {invoice.lines.map((line, index) => (
-                    <TableRow key={`${line.productName}-${index}`}>
+                    <TableRow key={`${line.productName}-${index}`} sx={{ '&:last-child td': { borderBottom: 0 } }}>
                       <TableCell>{line.productName}</TableCell>
                       <TableCell sx={numeric}>{formatCLP(line.unitPrice)}</TableCell>
                       <TableCell sx={numeric}>{formatInteger(line.quantity)}</TableCell>
@@ -136,8 +138,8 @@ function InconsistentRow({ invoice }: { invoice: InconsistentInvoice }) {
                         {line.subtotalMatches ? (
                           formatCLP(line.subtotal)
                         ) : (
-                          <Stack direction="row" sx={{ gap: 0.5, alignItems: 'center', justifyContent: 'flex-end' }}>
-                            <WarningAmberRounded fontSize="small" sx={{ color: '#d03b3b' }} />
+                          <Stack direction="row" sx={{ gap: 0.5, alignItems: 'center', justifyContent: 'flex-end', fontWeight: 600 }}>
+                            <WarningAmberRounded fontSize="small" sx={{ color: alertColor }} />
                             <span>{formatCLP(line.subtotal)} · no cuadra</span>
                           </Stack>
                         )}
