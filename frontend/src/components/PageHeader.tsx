@@ -10,7 +10,10 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, subtitle, actions }: PageHeaderProps) {
   return (
-    <Stack direction={{ xs: 'column', sm: 'row' }} gap={2} alignItems={{ xs: 'flex-start', sm: 'flex-end' }} justifyContent="space-between">
+    <Stack
+      direction={{ xs: 'column', sm: 'row' }}
+      sx={{ gap: 2, alignItems: { xs: 'flex-start', sm: 'center' }, justifyContent: 'space-between' }}
+    >
       <div>
         <Typography variant="h1" component="h1">
           {title}
