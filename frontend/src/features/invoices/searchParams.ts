@@ -4,8 +4,6 @@ import { isInvoiceStatus, isPaymentStatus } from '../../lib/status'
 export const PAGE_SIZES = [10, 20, 50] as const
 const DEFAULT_PAGE_SIZE = 10
 
-export type InvoiceFilters = Pick<InvoiceSearchParams, 'number' | 'invoiceStatus' | 'paymentStatus'>
-
 export function readSearchParams(params: URLSearchParams): InvoiceSearchParams {
   const number = Number(params.get('numero'))
   const invoiceStatus = params.get('estadoFactura')
